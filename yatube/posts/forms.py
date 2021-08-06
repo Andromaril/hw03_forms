@@ -1,6 +1,7 @@
 from django import forms
 from .models import Post
 
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -13,4 +14,4 @@ class PostForm(forms.ModelForm):
         if text == "":
             raise forms.ValidationError('Без текста пост нельзя создать.')
 
-        return text 
+        return text
