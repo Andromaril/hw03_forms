@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from .forms import CreationForm
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
 
@@ -11,6 +10,7 @@ def users_out(request):
     """View - функция для страницы выхода из системы."""
 
     return render(request, 'users/logged_out.html')
+
 
 @login_required
 def password_change(request):
