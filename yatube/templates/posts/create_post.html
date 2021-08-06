@@ -1,0 +1,28 @@
+ {% extends 'base.html' %}
+{% block title %}Добавление новой записи{% endblock %}
+{% block header %}
+    {% if is_edit %}
+    Редактирование поста
+    {% else %}
+    Добавление нового поста
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    {% if is_edit %}
+        <form action="{% url 'posts:post_edit' post_id=form.instance.pk %}" method="post">
+    {% else %}
+        <form action="{% url 'posts:post_create' %}" method="post">
+    {% endif %}{% csrf_token %}
+            {{ form.as_p }}
+    
+
+    <button type="submit" class="btn btn-primary" >
+        {% if is_edit %}
+            Сохранить изменения
+        {% else %}
+            Создать пост
+        {% endif %}
+    </button>
+</form>
+{% endblock %}
