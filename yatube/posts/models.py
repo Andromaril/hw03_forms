@@ -18,12 +18,13 @@ class Group(models.Model):
 class Post(models.Model):
     """Класс описывает поля модели Post и их типы."""
 
-    text = models.TextField()
+    text = models.TextField(verbose_name="текст")
     pub_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                related_name='posts')
     group = models.ForeignKey(Group, on_delete=models.SET_NULL,
-                              blank=True, null=True, related_name='posts')
+                              blank=True, null=True,
+                              related_name='posts', verbose_name="группа")
 
     class Meta:
         """Метакласс сортировки по дате"""

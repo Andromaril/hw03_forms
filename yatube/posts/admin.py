@@ -19,7 +19,7 @@ class GroupAdmin(admin.ModelAdmin):
     """Класс для настройки отображения модели в интерфейсе админки."""
 
     # Перечисляем поля, которые должны отображаться в админке
-    list_display = ('pk', 'title', 'description',)
+    list_display = ('pk', 'title',)
     search_fields = ('title',)
     empty_value_display = '-пусто-'
 

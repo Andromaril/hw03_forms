@@ -2,7 +2,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load user_filters %}
-<!DOCTYPE html> 
 {% block content %}
 <html lang="ru"> 
   <head>  
@@ -42,7 +41,7 @@
         </aside>
         <article class="col-12 col-md-9">
           <p>
-            {{ post.text }}
+            {{ post.text|linebreaksbr }}
           </p>
         </article>
       </div> 

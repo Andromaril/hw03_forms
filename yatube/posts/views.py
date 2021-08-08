@@ -5,6 +5,7 @@ from .models import Post, Group
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from posts.forms import PostForm
+from django.contrib.auth.decorators import login_required
 
 
 User = get_user_model()
@@ -17,10 +18,8 @@ def index(request):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    title_index = 'Последние обновления на сайте'
     context = {
         'posts': posts,
-        'title_index': title_index,
         'page_obj': page_obj,
     }
     return render(request, 'posts/index.html', context)
@@ -34,11 +33,9 @@ def group_posts(request, slug):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    title_group = 'Записи сообщества'
     context = {
         'group': group,
         'posts': posts,
-        'title_group': title_group,
         'page_obj': page_obj,
 
     }
@@ -52,7 +49,7 @@ def profile(request, username):
     """
 
     author = get_object_or_404(User, username=username)
-    count = Post.objects.filter(author=author).count()
+    count = author.posts.all().count()
     paginator = Paginator(author.posts.all(), 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -77,6 +74,7 @@ def post_view(request, post_id):
     return render(request, 'posts/post_detail.html', context)
 
 
+@login_required
 def post_create(request):
     """View - функция для создания поста."""
 
@@ -92,23 +90,20 @@ def post_create(request):
     return render(request, 'posts/create_post.html', {"form": form, })
 
 
+@login_required
 def post_edit(request, post_id):
     """View - функция для редактирования проекта."""
 
     is_edit = True
     post = get_object_or_404(Post, pk=post_id)
     if post.author != request.user:
-        return redirect('/posts/%s' % post_id)
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        return redirect('posts:post_detail', pk=post_id)
+    else:
+        form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
             return redirect('posts:post_detail', post_id)
-        return render(request, 'posts/create_post.html',
-                      {"form": form, 'post': post, "is_edit": is_edit, })
-    form = PostForm(instance=post)
     return render(request, 'posts/create_post.html',
-                  {"form": form, 'post': post,
-                   "is_edit": is_edit, })
+                  {"form": form, 'post': post, "is_edit": is_edit, })

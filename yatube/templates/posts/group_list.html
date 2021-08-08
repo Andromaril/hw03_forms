@@ -1,10 +1,9 @@
 <!-- templates/posts/group_list.html -->
 {% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html> 
 {% block content %}
   <head>
-    <title>{{ title_group }} {{ group }}</title>
+    <title>Записи сообщества {{ group }}</title>
   </head>
   <h1>{{ group }}</h1> 
   <p>{{ group.description }}</p>
@@ -19,7 +18,7 @@
       Дата публикации: {{ post.pub_date|date:"d E Y" }}
     </li>
   </ul>
-      <p>{{ post.text }}</p>
+      <p>{{ post.text|linebreaksbr }}</p>
   {% if not forloop.last %}<hr>{% endif %}
 {% endfor %} 
 
