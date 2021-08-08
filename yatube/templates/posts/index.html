@@ -1,18 +1,19 @@
 <!-- templates/posts/index.html -->
 {% extends 'base.html' %}
-{% load static %}
+
+
 {% block content %}
   <head>
     <title> Последние обновления на сайте </title>
   </head>    
-  <h1>Последние обновления на сайте</h1>   
+    <h1>Последние обновления на сайте</h1>   
   {% for post in page_obj %}
     <ul>
       <li>
         Автор: {{ post.author.get_full_name }}
       </li>
       <li>
-      Дата публикации: {{ post.pub_date|date:"d E Y" }}
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
       </li>
     </ul>
       <p>{{ post.text|linebreaksbr }}</p>    
@@ -22,7 +23,6 @@
     <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
   {% endif %}
   {% if not forloop.last %}<hr>{% endif %}
-{% endfor %} 
-{% include 'posts/includes/paginator.html' %}
-
+  {% endfor %} 
+  {% include 'posts/includes/paginator.html' %}
 {% endblock %}

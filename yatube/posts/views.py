@@ -35,7 +35,6 @@ def group_posts(request, slug):
     page_obj = paginator.get_page(page_number)
     context = {
         'group': group,
-        'posts': posts,
         'page_obj': page_obj,
 
     }
